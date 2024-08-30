@@ -1,0 +1,32 @@
+原文 (維基百科-自然語言處理)
+自然語言處理是人工智慧和語言學領域的分支學科。此領域探討如何處理及運用自然語言；自然語言處理包括多方面和步驟，基本有認知、理解、生成等部分。
+自然語言認知和理解是讓電腦把輸入的語言變成有意思的符號和關係，然後根據目的再處理。自然語言生成系統則是把計算機數據轉化為自然語言。
+自然語言處理要研製表示語言能力和語言應用的模型, 建立計算框架來實現並完善語言模型，並根據語言模型設計各種實用系統及探討這些系統的評測技術。
+
+文本1 (Google翻譯原文) - 888 Words
+Natural language processing is a branch of artificial intelligence and linguistics. This field explores how to process and use natural language; natural language processing includes many aspects and steps, basically including cognition, understanding, generation and other parts.
+Natural language cognition and understanding is to let the computer turn the input language into interesting symbols and relationships, and then process it according to the purpose. The natural language generation system converts computer data into natural language.
+Natural language processing requires the development of models that represent language abilities and language applications, the establishment of computing frameworks to implement and improve language models, the design of various practical systems based on language models, and the exploration of evaluation technologies for these systems.
+
+文本2 (DeepL翻譯原文) - 877 Words
+Natural Language Processing is a sub-field of Artificial Intelligence and Linguistics. This field explores how to process and utilize natural language; natural language processing includes various aspects and steps, basically cognition, comprehension, and generation.
+Natural language cognition and understanding allows computers to turn input language into interesting symbols and relationships, which can then be processed according to the purpose. Natural language generation system is to convert computer data into natural language.
+Natural language processing involves the development of models that represent language abilities and language applications, the establishment of computational frameworks to realize and refine language models, the design of various practical systems based on language models, and the exploration of evaluation techniques for these systems.
+
+
+以下測試結果基於RTX 3060 Laptop GPU：
+
+文本1(136 Token) vs 文本2(135 Token)
+Aggregate Embeddings 處理時間: 0.1600s, 相似度: 0.9846
+Sliding Window (mean)處理時間: 0.0340s, 相似度: 0.9846
+Sliding Window (max) 處理時間: 0.0290s, 相似度: 0.9846
+
+文本1*10(1342 Token) vs 文本2*10(1332 Token)
+Aggregate Embeddings 處理時間: 0.3520s, 相似度: 0.9759
+Sliding Window (mean)處理時間: 0.3310s, 相似度: 0.9105
+Sliding Window (max) 處理時間: 0.3379s, 相似度: 0.9784
+
+文本1*100(13402 Token) vs 文本2*100(13302 Token)
+Aggregate Embeddings 處理時間: 1.8357s, 相似度: 0.9786
+Sliding Window (mean)處理時間: 3.9340s, 相似度: 0.9318
+Sliding Window (max) 處理時間: 3.8526s, 相似度: 0.9837
