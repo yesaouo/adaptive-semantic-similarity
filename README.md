@@ -1,11 +1,11 @@
-# adaptive-semantic-similarity
+# adaptive-semantic-similarity [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1oAx3skn0PCLnWOWBpY33Yns3Ql7nQjop?usp=sharing)
 
 Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工具，專門設計用於處理各種長度的文本，即使超出預訓練模型的最大token限制。本倉庫提供兩種主要的實現方法：
 
 1. AggregateEmbeddings: 通過聚合分塊文本的嵌入來計算相似度。
 2. SlidingWindow: 使用滑動窗口方法生成和比較嵌入。
 
-## 主要特點:
+## 主要特點
 
 1. **基於 Token 的文本分割**: 
    - 使用語言模型的 token 進行精確的文本分割，而非傳統的基於字符長度的方法。
@@ -27,26 +27,19 @@ Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工
    - `SlidingWindow (max)`: 特別適合部分抄襲檢測，能夠捕捉局部高度相似的片段。
    - `SlidingWindow (mean)`: 在長文本比較中表現出與人類直觀判斷相符的結果。
 
-## 性能展示:
+## 性能數據
 
-以下測試結果基於RTX 3060 Laptop GPU：
+以下是在不同長度文本上的性能測試結果（測試環境：RTX 3060 Laptop）：
 
-1. 短文本 (102 vs 132 Tokens):
-   - Aggregate Embeddings: 0.1660s, 相似度: 0.9382
-   - Sliding Window (mean): 0.0300s, 相似度: 0.9382
-   - Sliding Window (max): 0.0350s, 相似度: 0.9382
+| 文本長度 (Token) | AE | SW (mean) | SW (max) |
+|----------------|---------|---------|---------|
+| 136 vs 135     | 0.1600s | 0.0340s | 0.0290s |
+| 1342 vs 1332   | 0.3520s | 0.3310s | 0.3379s |
+| 13402 vs 13302 | 1.8357s | 3.9340s | 3.8526s |
 
-2. 中等長度文本 (702 vs 912 Tokens):
-   - Aggregate Embeddings: 0.2861s, 相似度: 0.9503
-   - Sliding Window (mean): 0.1950s, 相似度: 0.9061
-   - Sliding Window (max): 0.1930s, 相似度: 0.9469
+注：AE = Aggregate Embeddings, SW = Sliding Window
 
-3. 長文本 (2102 vs 2732 Tokens):
-   - Aggregate Embeddings: 0.4900s, 相似度: 0.9542
-   - Sliding Window (mean): 0.5780s, 相似度: 0.9100
-   - Sliding Window (max): 0.5778s, 相似度: 0.9539
-
-注意：即使處理超過預訓練模型最大token限制（512）的文本，我們的方法仍能保持高精度。
+查看[完整測試結果](https://github.com/yesaouo/adaptive-semantic-similarity/blob/main/test.txt)以獲取更詳細的性能數據。
 
 ## 算法特點總結
 
@@ -54,20 +47,20 @@ Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工
 - **SlidingWindow (max)**: 對於檢測部分抄襲或高度相似的文本片段特別有效。
 - **SlidingWindow (mean)**: 在比較長文本時，結果更符合人類的直觀判斷。
 
-## 應用場景:
+## 應用場景
 
 - 文本相似度分析
 - 抄襲檢測系統
 - 長文本比較
 - 智能文章推薦引擎
 
-## 技術要求:
+## 技術要求
 
 - PyTorch
 - Transformers
 - NumPy
 
-## 快速開始:
+## 快速開始
 
 ```python
 from adaptive_semantic_similarity import AggregateEmbeddings, SlidingWindow
@@ -86,7 +79,7 @@ print(f"SlidingWindow (mean) 相似度: {similarity_sw_mean}")
 print(f"SlidingWindow (max) 相似度: {similarity_sw_max}")
 ```
 
-## 自定義模型:
+## 自定義模型
 
 您可以輕鬆地使用自定義預訓練模型：
 
