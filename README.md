@@ -84,8 +84,18 @@ print(f"SlidingWindow (max) 相似度: {similarity_sw_max}")
 您可以輕鬆地使用自定義預訓練模型：
 
 ```python
+#預設 model_name='sentence-transformers/all-mpnet-base-v2'
 custom_ae = AggregateEmbeddings(model_name='your-custom-model-name')
 custom_sw = SlidingWindow(model_name='your-custom-model-name')
+```
+
+## 自定義滑動窗口的步幅
+
+您可以輕鬆地調整滑動窗口的步幅：
+
+```python
+#stride = (chunk_size - 2) // N
+custom_sw = SlidingWindow(N=4)
 ```
 
 ## 注意事項
