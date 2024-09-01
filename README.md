@@ -1,9 +1,6 @@
 # adaptive-semantic-similarity [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1oAx3skn0PCLnWOWBpY33Yns3Ql7nQjop?usp=sharing)
 
-Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工具，專門設計用於處理各種長度的文本，即使超出預訓練模型的最大token限制。本倉庫提供兩種主要的實現方法：
-
-1. AggregateEmbeddings: 通過聚合分塊文本的嵌入來計算相似度。
-2. SlidingWindow: 使用滑動窗口方法生成和比較嵌入。
+Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工具，專門設計用於處理各種長度的文本，即使超出預訓練模型的最大token限制。
 
 ## 主要特點
 
@@ -26,6 +23,24 @@ Adaptive Semantic Similarity 是一個高效、靈活的文本相似度計算工
    - `AggregateEmbeddings`: 適用於大多數一般情況，提供穩定可靠的相似度計算。
    - `SlidingWindow (max)`: 特別適合部分抄襲檢測，能夠捕捉局部高度相似的片段。
    - `SlidingWindow (mean)`: 在長文本比較中表現出與人類直觀判斷相符的結果。
+
+## 工作原理
+
+1. **文本向量化**：
+   - 使用預訓練的語言模型（默認為 'sentence-transformers/all-mpnet-base-v2'）將輸入文本轉換為高維向量表示。
+   - 這些向量捕捉了文本的語義信息，使得語義相似的文本在向量空間中距離較近。
+
+2. **基於 Token 的文本分割**：
+   - 對於超過模型最大 token 限制的長文本，我們使用基於 token 的分割方法，而非傳統的字符串長度分割。
+   - 這確保了分割後的文本片段保持語義完整性。
+
+3. **相似度計算**：
+   - 使用餘弦相似度來衡量向量間的相似程度。餘弦相似度值範圍從 -1 到 1，其中 1 表示完全相似。
+   - 對於長文本，我們提供了不同的聚合策略來計算整體相似度。
+
+4. **聚合策略**：
+   - `AggregateEmbeddings`：將分割後的文本片段的嵌入向量聚合，然後計算相似度。
+   - `SlidingWindow`：使用滑動窗口方法，支持 mean 和 max 兩種聚合方式，分別適用於不同場景。
 
 ## 性能數據
 
