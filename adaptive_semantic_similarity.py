@@ -11,13 +11,22 @@ class AggregateEmbeddings:
         self.chunk_size = chunk_size
 
     def get_tokens(self, text):
-        tokens = self.tokenizer(text, return_tensors='pt').to(self.device)['input_ids'][0]
+        tokens = self.tokenizer.encode(text, add_special_tokens=False)
         return tokens
 
     def split_tokens(self, tokens):
-        tokens = tokens[1:-1]
-        chunks = [tokens[i:i + self.chunk_size - 2] for i in range(0, len(tokens), self.chunk_size - 2)]
-        return chunks
+        if len(tokens) == 0:
+            return []
+        n = len(tokens) // self.chunk_size + 1
+        avg_len = len(tokens) // n
+        extras = len(tokens) % n
+        result = []
+        start = 0
+        for i in range(n):
+            end = start + avg_len + (1 if i < extras else 0)
+            result.append(tokens[start:end])
+            start = end
+        return result
 
     def mean_pooling(self, model_output, attention_mask):
         token_embeddings = model_output[0]
@@ -63,13 +72,22 @@ class SlidingWindow:
         self.stride = (chunk_size - 2) // N
 
     def get_tokens(self, text):
-        tokens = self.tokenizer(text, return_tensors='pt').to(self.device)['input_ids'][0]
+        tokens = self.tokenizer.encode(text, add_special_tokens=False)
         return tokens
 
     def split_tokens(self, tokens):
-        tokens = tokens[1:-1]
-        chunks = [tokens[i:i + self.chunk_size - 2] for i in range(0, len(tokens), self.stride)]
-        return chunks
+        if len(tokens) == 0:
+            return []
+        n = len(tokens) // self.chunk_size + 1
+        avg_len = len(tokens) // n
+        extras = len(tokens) % n
+        result = []
+        start = 0
+        for i in range(n):
+            end = start + avg_len + (1 if i < extras else 0)
+            result.append(tokens[start:end])
+            start = end
+        return result
 
     def mean_pooling(self, model_output, attention_mask):
         token_embeddings = model_output[0]
