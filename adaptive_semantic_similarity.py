@@ -15,8 +15,6 @@ class AggregateEmbeddings:
         return tokens
 
     def split_tokens(self, tokens):
-        if len(tokens) == 0:
-            return []
         n = len(tokens) // self.chunk_size + 1
         avg_len = len(tokens) // n
         extras = len(tokens) % n
@@ -53,6 +51,9 @@ class AggregateEmbeddings:
         return F.cosine_similarity(embedding1, embedding2, dim=0).item()
 
     def get_similarity(self, text1, text2):
+        if text1 == "" or text2 == "":
+            return 0
+
         embeddings_a = self.get_embeddings(text1)
         embeddings_b = self.get_embeddings(text2)
 
@@ -76,8 +77,6 @@ class SlidingWindow:
         return tokens
 
     def split_tokens(self, tokens):
-        if len(tokens) == 0:
-            return []
         n = len(tokens) // self.chunk_size + 1
         avg_len = len(tokens) // n
         extras = len(tokens) % n
@@ -111,6 +110,9 @@ class SlidingWindow:
         return F.cosine_similarity(embedding1, embedding2, dim=0).item()
 
     def get_similarity(self, text1, text2, method="mean"):
+        if text1 == "" or text2 == "":
+            return 0
+
         embeddings_a = self.get_embeddings(text1)
         embeddings_b = self.get_embeddings(text2)
         
